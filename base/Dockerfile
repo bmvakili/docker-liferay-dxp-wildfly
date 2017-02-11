@@ -52,6 +52,7 @@ RUN cd $LIFERAY_HOME \
     && find -name "liferay-ce-portal-osgi*" -exec ln -s {} osgi \;
 RUN mkdir -p $WILDFLY_HOME/modules/com/liferay/portal/ \
     && cd $WILDFLY_HOME/modules/com/liferay/portal/ \
+    # manually create else get error
     && mkdir $WILDFLY_HOME/standalone/log
     && mkdir $WILDFLY_HOME/standalone/data
     && sha1sum $DOWNLOAD/liferay-ce-portal-dependencies-$LIFERAY_VERSION_FULL.zip | grep $LIFERAY_DEPS_SHA1 \

@@ -52,11 +52,12 @@ RUN cd $LIFERAY_HOME \
     && find -name "liferay-ce-portal-osgi*" -exec ln -s {} osgi \;
 RUN mkdir -p $WILDFLY_HOME/modules/com/liferay/portal/ \
     && cd $WILDFLY_HOME/modules/com/liferay/portal/ \
+    && mkdir $WILDFLY_HOME/standalone/log
+    && mkdir $WILDFLY_HOME/standalone/data
     && sha1sum $DOWNLOAD/liferay-ce-portal-dependencies-$LIFERAY_VERSION_FULL.zip | grep $LIFERAY_DEPS_SHA1 \
     && unzip $DOWNLOAD/liferay-ce-portal-dependencies-$LIFERAY_VERSION_FULL.zip > /dev/null \
     && mv liferay-ce-portal-dependencies-* main \
     && cp /tmp/files/module.xml main/
-
 ## CONFIGURATION
 RUN sed -i -e '/<paths/r /tmp/files/standalone-systemmodules.xml' $LIFERAY_HOME/wildfly/modules/system/layers/base/sun/jdk/main/module.xml
 RUN sed -i '/org.jboss.as.weld/d' $WILDFLY_STANDALONE_CFG \
